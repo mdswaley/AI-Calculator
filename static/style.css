@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #4CAF50;
+}
+
+#camera-container {
+    margin: 20px 0;
+}
+
+#camera-container img {
+    width: 100%;
+    max-width: 640px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+}
+
+#price, #total {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+label {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+input {
+    font-size: 16px;
+    padding: 5px;
+    width: 100px;
+    margin: 10px 0;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
