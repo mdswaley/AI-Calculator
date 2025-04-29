@@ -10,22 +10,17 @@
     <div class="container">
         <h1>AI Calculator</h1>
 
-        <!-- Camera feed display -->
         <div id="camera-container">
-            <img src="{{ url_for('video_feed') }}" alt="Camera Feed">
+            <img src="{{ url_for('video_feed') }}" alt="Camera Feed" width="400">
         </div>
 
-        <!-- Display detected price -->
         <div id="price">Price: $0.00</div>
 
-        <!-- Input for quantity -->
         <label for="quantity">Enter Quantity:</label>
         <input type="number" id="quantity" value="1" min="1">
 
-        <!-- Display total -->
         <div id="total">Total: $0.00</div>
 
-        <!-- Button to calculate total -->
         <button onclick="updateTotal()">Calculate Total</button>
     </div>
 
@@ -34,27 +29,35 @@
             const quantity = document.getElementById('quantity').value;
             fetch('/calculate_total', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    quantity: quantity
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity: quantity })
             })
             .then(response => response.json())
             .then(data => {
                 document.getElementById('total').textContent = 'Total: $' + data.total.toFixed(2);
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error calculating total:', error);
+                document.getElementById('total').textContent = 'Total: Error';
+            });
         }
 
-        // Fetch initial price from the server when page loads
-        fetch('/get_price')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('price').textContent = 'Price: $' + data.price.toFixed(2);
-            })
-            .catch(error => console.error('Error:', error));
+        // Fetch price from server every 2 seconds
+        setInterval(() => {
+            fetch('/get_price')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.price !== undefined && !isNaN(data.price)) {
+                        document.getElementById('price').textContent = 'Price: $' + parseFloat(data.price).toFixed(2);
+                    } else {
+                        document.getElementById('price').textContent = 'Price: Not Detected';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching price:', error);
+                    document.getElementById('price').textContent = 'Price: Error';
+                });
+        }, 2000);
     </script>
 </body>
 </html>
